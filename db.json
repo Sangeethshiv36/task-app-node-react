@@ -52,5 +52,23 @@
     "gender": "female",
     "password": "$2a$10$4ZVLpM7oqT1nHxSdQnbJ..sRRYMYPQyrNAp4T/NkXEOP2VfEegwoC",
     "country": "Armenia"
+  },
+  {
+    "id": 161,
+    "first_name": "Mysterio",
+    "last_name": "Klans",
+    "email": "myster@kans.com",
+    "gender": "male",
+    "password": "$2a$10$1eGRqgb80mittoypFn5l4emhEmSXdYKE0dv47nf1ffTTHgTJg0t4a",
+    "country": "United States"
+  },
+  {
+    "id": 161,
+    "first_name": "New",
+    "last_name": "User",
+    "email": "ss@okok.com",
+    "gender": "male",
+    "password": "$2a$10$9cNOtdr4aUOZCttF4exVh..6TkklnFfGiG.tiIaS/1EufI9wUkk5i",
+    "country": "Belgium"
   }
 ]

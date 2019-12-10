@@ -16,7 +16,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ erros: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
 
     const { email, password } = req.body;
@@ -24,13 +24,19 @@ router.post(
     try {
       let user = await db.find(data => data.email === email);
       if (!user) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid Credentials' }] });
       }
 
+      console.log(user);
+      console.log(user.password);
       const pwdMatch = await bcrypt.compare(password, user.password);
 
       if (!pwdMatch) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Invalid Credentials' }] });
       }
 
       const payload = {
@@ -60,10 +66,15 @@ router.post(
 router.get('/', auth, async (req, res) => {
   try {
     const user = await db.find(data => data.id === req.user.id);
-    if (user) {
-      delete user.password;
-    }
-    res.json(user);
+    const userResponseObject = {
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      country: user.country,
+      gender: user.gender,
+      email: user.email
+    };
+    res.json(userResponseObject);
   } catch (err) {
     console.log(err);
     res.status(500).send('Server Error');

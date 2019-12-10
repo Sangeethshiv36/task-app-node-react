@@ -2,10 +2,24 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
 const config = require('config');
 const db = require('../db.json');
 const fs = require('fs');
 const { check, validationResult } = require('express-validator');
+
+router.get('/me', auth, async (req, res) => {
+  try {
+    const profile = await db.find(data => data.id === req.user.id);
+    if (!profile) {
+      return res.status(400).json({ errors: [{ msg: 'Profile not found' }] });
+    }
+    res.json(profile);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('server error');
+  }
+});
 
 router.post(
   '/',
@@ -24,7 +38,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ erros: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
     const {
       first_name,
@@ -39,7 +53,9 @@ router.post(
       let user = await db.some(data => data.email === email);
 
       if (user) {
-        return res.status(400).json({ msg: 'User already exists' });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists' }] });
       }
 
       user = {

@@ -1,8 +1,13 @@
 import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { CountryDropdown } from 'react-country-region-selector';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 
-const Register = () => {
+import { CountryDropdown } from 'react-country-region-selector';
+import PropTypes from 'prop-types';
+
+const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -19,8 +24,12 @@ const Register = () => {
 
   const onSubmit = async e => {
     e.preventDefault();
-    console.log('success');
+    register({ first_name, last_name, email, password, country, gender });
   };
+
+  if (isAuthenticated) {
+    return <Redirect to='/profile' />;
+  }
 
   const countrySelect = e => setFormData({ ...formData, country: e });
   return (
@@ -39,7 +48,6 @@ const Register = () => {
                   placeholder='Enter your first name'
                   value={first_name}
                   onChange={e => onChange(e)}
-                  required
                 />
               </div>
               <div className='form-group'>
@@ -51,7 +59,6 @@ const Register = () => {
                   placeholder='Enter your lastname name'
                   value={last_name}
                   onChange={e => onChange(e)}
-                  required
                 />
               </div>
               <div className='form-group'>
@@ -133,4 +140,14 @@ const Register = () => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);
