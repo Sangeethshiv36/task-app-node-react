@@ -43,5 +43,14 @@
     "gender": "Male",
     "password": "$2a$10$C75psY8SFxQn3x6da6ZYu.eb5Xsk0Y0.yzHVA78Ud2TUA/qsNd6SG",
     "country": "Australia"
+  },
+  {
+    "id": 153,
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "email": "janedoe@jane.com",
+    "gender": "female",
+    "password": "$2a$10$4ZVLpM7oqT1nHxSdQnbJ..sRRYMYPQyrNAp4T/NkXEOP2VfEegwoC",
+    "country": "Armenia"
   }
 ]
