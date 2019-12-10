@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 
 const RouteGuard = ({
   component: Component,
-  auth: { isAuthenticated, loading },
+  auth: { isAuthenticated, loading, user },
   ...rest
 }) => (
   <Route
     {...rest}
     render={props =>
-      !isAuthenticated && !loading ? (
+      isAuthenticated === null && user === null && loading ? (
         <Redirect to='/login' />
       ) : (
         <Component {...props} />
